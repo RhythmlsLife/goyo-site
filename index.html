@@ -1,0 +1,1241 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>GOYO — 감각 과부하 전조 감지 웨어러블 | 2026 한양학술타운 LION</title>
+  <meta name="description" content="2026 한양학술타운 LION 한양대학교 융합전자공학부 GOYO 팀: 소리·조도·심박 데이터를 사용자별 평소값과 비교해 보호자 앱과 Galaxy Watch에 알리는 연구용 웨어러블 시스템.">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="GOYO — 감각 과부하 전조 감지 웨어러블">
+  <meta property="og:description" content="60초 시연 영상 · 시스템 아키텍처 · 11/18 실기 검증 · 1~10차 개발 기록 | 2026 한양학술타운 LION">
+  <meta property="og:image" content="img/video_poster.jpg">
+  <link rel="icon" type="image/png" href="img/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+KR:wght@400;500;600;700&display=swap">
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem('goyo-theme');
+        if (t === 'dark' || t === 'light') {
+          document.documentElement.setAttribute('data-theme', t);
+        }
+      } catch (e) {}
+    })();
+  </script>
+  <link rel="stylesheet" href="styles.css">
+  <script src="script.js" defer></script>
+</head>
+<body id="top">
+<a class="skip-link" href="#main">본문으로 건너뛰기</a>
+
+<!-- ======================================================================
+     상단 내비게이션 (정돈된 5개 핵심 메뉴 + 다크모드 + 모바일 드로어)
+     ====================================================================== -->
+<nav class="nav" aria-label="주요 섹션 이동">
+  <div class="pad">
+    <div class="inner nav-bar">
+      <a class="brand" href="#top" aria-label="GOYO 맨 위로 이동">
+        <span class="brand-mark"><img src="img/logo.png" alt=""></span>
+        <span class="brand-name">GOYO</span>
+        <span class="brand-tag">LION 2026</span>
+      </a>
+
+      <div class="nav-links">
+        <a href="#overview">개요</a>
+        <a href="#system">시스템</a>
+        <a href="#results">실기 검증</a>
+        <a href="#journal">개발 아카이브</a>
+        <a href="#team">팀 · 한계</a>
+      </div>
+
+      <div class="nav-actions">
+        <button type="button" class="icon-btn" id="themeBtn" aria-pressed="false" aria-label="다크 모드로 전환">
+          <svg id="iconMoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+          </svg>
+          <svg id="iconSun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:none">
+            <circle cx="12" cy="12" r="5"/>
+            <line x1="12" y1="1" x2="12" y2="3"/>
+            <line x1="12" y1="21" x2="12" y2="23"/>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+            <line x1="1" y1="12" x2="3" y2="12"/>
+            <line x1="21" y1="12" x2="23" y2="12"/>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+          </svg>
+          <span class="theme-label" id="themeLabel">다크</span>
+        </button>
+
+        <button type="button" class="icon-btn" id="menuBtn" aria-expanded="false" aria-controls="mobileDrawer" aria-label="메뉴 열기">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <line x1="4" y1="7" x2="20" y2="7"/>
+            <line x1="4" y1="12" x2="20" y2="12"/>
+            <line x1="4" y1="17" x2="20" y2="17"/>
+          </svg>
+          <span>메뉴</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="mobile-drawer pad" id="mobileDrawer">
+    <div class="inner mobile-nav-list">
+      <a href="#overview"><span>개요 · 흐름</span><span class="n">01</span></a>
+      <a href="#system"><span>시스템 · 판정</span><span class="n">02</span></a>
+      <a href="#results"><span>실기 검증</span><span class="n">03</span></a>
+      <a href="#fix"><span>문제 해결</span><span class="n">04</span></a>
+      <a href="#journal"><span>개발 아카이브</span><span class="n">05</span></a>
+      <a href="#team"><span>팀 · 연구 한계</span><span class="n">06</span></a>
+    </div>
+  </div>
+
+  <div class="read-progress" id="readProgress" aria-hidden="true"></div>
+</nav>
+
+<!-- ======================================================================
+     히어로 스테이지 (소개 + 60초 시연 영상 + 인터랙티브 챕터 점프)
+     ====================================================================== -->
+<header class="hero pad">
+  <div class="inner hero-grid">
+    <div class="hero-copy">
+      <div class="hero-meta-bar">
+        <span class="hero-pill">2026 한양학술타운 LION · 융합전자공학부</span>
+        <span class="hero-pill">FW v0.7.5 · App v0.7.4</span>
+      </div>
+
+      <div class="hero-title-wrap">
+        <h1>
+          GOYO
+          <span>소리·조도·심박의 평소 대비 변화로<br>감각 과부하 전조를 알리는 웨어러블</span>
+        </h1>
+        <img class="hero-logo-badge" src="img/logo.png" alt="GOYO 로고. QUIETER SPACE, CLEARER MINDS">
+      </div>
+
+      <p class="hero-desc">자폐인의 멜트다운 예방을 위한 주변 환경 및 실시간 생체 변화 기반 맞춤형 알림 디바이스 개발 — 현재 연구용 시제품의 통합 기능을 확인한 단계이며, 실제 멜트다운 예방 효과는 임상적으로 검증되지 않았습니다.</p>
+
+      <div class="hero-stack" aria-label="기술 구성">
+        <span>XIAO ESP32-S3</span>
+        <span>INMP441 · VEML7700 · SEN0203</span>
+        <span>ESP-NOW</span>
+        <span>ESP32-S3 마스터</span>
+        <span>Flutter 앱 · Galaxy Watch</span>
+      </div>
+
+      <div class="hero-cta">
+        <a class="btn btn-primary" href="#results">11/18 실기 검증 보기</a>
+        <a class="btn btn-outline" href="#system">시스템·판정 구조</a>
+      </div>
+    </div>
+
+    <div class="hero-stage">
+      <div class="video-frame">
+        <video id="demoVideo" src="media/goyo_demo.mp4" poster="img/video_poster.jpg" controls muted playsinline preload="metadata" aria-label="GOYO 사용 흐름 60초 3D 시연 영상"></video>
+      </div>
+
+      <div class="chapter-bar" role="group" aria-label="영상 구간 바로가기">
+        <button type="button" class="chapter-btn active" data-seek="0"><b>0:00</b> 장치 흐름</button>
+        <button type="button" class="chapter-btn" data-seek="8"><b>0:08</b> 30초 평소값</button>
+        <button type="button" class="chapter-btn" data-seek="19"><b>0:19</b> 환경 변화</button>
+        <button type="button" class="chapter-btn" data-seek="30"><b>0:30</b> 카페 상황 예시</button>
+        <button type="button" class="chapter-btn" data-seek="50"><b>0:50</b> 안정·쿨다운</button>
+      </div>
+
+      <p class="video-note">
+        <strong>시연 영상 안내 (1분 · 무음 · 3D 연출):</strong> 실제 기기를 촬영한 영상이 아니라 동작 순서를 3D로 재현한 연출입니다. 앞부분 수치는 11/18 실기 시험 사진을 참고했고, 후반 카페 상황의 수치와 인물은 설명을 위한 가상 예시입니다. 실제 실물과 앱 화면은 <a href="#results">실기 검증</a>에서 확인하세요.
+      </p>
+    </div>
+  </div>
+</header>
+
+<!-- 핵심 지표 리본 -->
+<div class="kpi-strip pad" aria-label="프로젝트 핵심 수치">
+  <div class="inner kpi-grid">
+    <div class="kpi-item">
+      <span class="val">10<small>회</small></span>
+      <span class="lbl">정기 개발 회의</span>
+      <span class="sub">5/8 ~ 11/18, 회의록 10건</span>
+    </div>
+    <div class="kpi-item">
+      <span class="val">3<small>채널</small></span>
+      <span class="lbl">소리 · 빛 · 심박</span>
+      <span class="sub">사용자별 평소값 대비 비교</span>
+    </div>
+    <div class="kpi-item">
+      <span class="val">30<small>초</small></span>
+      <span class="lbl">개인 평소값 학습</span>
+      <span class="sub">평균·표준편차 실시간 산출</span>
+    </div>
+    <div class="kpi-item">
+      <span class="val">154<small>/초</small></span>
+      <span class="lbl">보드 간 무선 패킷</span>
+      <span class="sub">11/18, 2초 308개·그 구간 실패 0</span>
+    </div>
+    <div class="kpi-item">
+      <span class="val">11.9<small>만 원</small></span>
+      <span class="lbl">1차 부품 구매</span>
+      <span class="sub">디바이스마트 + 알리익스프레스</span>
+    </div>
+  </div>
+</div>
+
+<main id="main">
+
+  <!-- ====================================================================
+       섹션 1: 프로젝트 개요 (연구 배경 + 실물 프리뷰 + 6단계 흐름)
+       ==================================================================== -->
+  <section class="section pad" id="overview" aria-labelledby="h-overview">
+    <div class="inner sec-stack">
+      <div class="sec-head">
+        <span class="eyebrow">01 · OVERVIEW</span>
+        <h2 id="h-overview">감각 과부하는 갑자기 오는 것처럼 보이지만, 그 전에 신호가 있습니다</h2>
+        <p class="lede">자폐 스펙트럼 당사자는 소리·빛 자극에 개인차가 크고 민감하게 반응할 수 있습니다. GOYO는 환경 자극과 심박 변화를 본인의 평소값과 함께 관찰해 보호자에게 알리는 연구용 웨어러블 시제품입니다.</p>
+      </div>
+
+      <div class="overview-grid">
+        <div class="evidence-list">
+          <article class="card evidence-item">
+            <span class="evidence-num">63%</span>
+            <div class="evidence-text">
+              <p>자폐 아동 중 순음 불쾌 역치가 80 dB HL 미만인 비율 (대조군 27%)</p>
+              <span>Khalfa et al., Hearing Research, 2004</span>
+            </div>
+          </article>
+          <article class="card evidence-item">
+            <span class="evidence-num">+22%</span>
+            <div class="evidence-text">
+              <p>도전행동 약 58초 전 심박 평균 상승폭(±16%) — 심박 주의 기준 +20%의 설계 근거</p>
+              <span>Nuske et al., Stress, 2019</span>
+            </div>
+          </article>
+          <article class="card evidence-item">
+            <span class="evidence-num">0.80</span>
+            <div class="evidence-text">
+              <p>입원 자폐 청소년의 웨어러블 생체신호로 공격행동 3분 전을 예측한 AUROC</p>
+              <span>Imbiriba et al., JAMA Netw. Open, 2023</span>
+            </div>
+          </article>
+        </div>
+
+        <aside class="card proto-preview" aria-label="실제 시제품 미리보기">
+          <div class="proto-preview-head">
+            <b>실제 구현된 시제품과 보호자 앱</b>
+            <span class="pill p-ok">11/18 실기 확인</span>
+          </div>
+          <div class="proto-duo">
+            <button type="button" class="zoom-btn" data-cap="웨어러블 실물: XIAO ESP32-S3 · INMP441 · VEML7700 · SEN0203 · 3.7V LiPo" aria-label="웨어러블 실물 사진 확대">
+              <img src="img/wear.jpg" alt="브레드보드 위 웨어러블 시제품과 손가락 맥파 센서, 배터리" loading="lazy">
+              <span class="zoom-badge">실물 확대</span>
+            </button>
+            <button type="button" class="zoom-btn" data-cap="앱 · 위험 알림 발동 (큰 소리 + 조명 끔)" aria-label="보호자 앱 위험 알림 화면 확대">
+              <img src="img/danger.jpg" alt="보호자 Flutter 앱 위험 알림 화면" loading="lazy">
+              <span class="zoom-badge">앱 확대</span>
+            </button>
+          </div>
+          <div class="proto-preview-foot">
+            <span>XIAO 웨어러블 → ESP-NOW → 마스터 → Flutter 앱 · Galaxy Watch</span>
+            <a href="#results">실기 사진 전체 보기 →</a>
+          </div>
+        </aside>
+      </div>
+
+      <div class="notice-bar">
+        <span><strong>단위 구분:</strong> 선행 연구의 대상과 조건이 달라 GOYO 실측과 직접 비교하지 않습니다. 순음 역치는 청력 검사 단위(dB HL)이며, GOYO의 소리 값은 사용자 평소 대비 <strong>상대 dB</strong>입니다.</span>
+      </div>
+
+      <div class="block-head">
+        <h3>사용 흐름 (6단계)</h3>
+        <p>웨어러블은 원시 데이터 측정만 담당하고, 판단은 마스터가, 알림은 보호자 휴대폰과 워치가 맡습니다.</p>
+      </div>
+
+      <ol class="flow-grid">
+        <li class="card">
+          <div class="flow-top"><span class="flow-title"><h4>착용</h4></span><span class="t">0:03</span></div>
+          <p>웨어러블을 몸에 달고 손가락에 맥파 센서를 끼웁니다. 마스터 보드와 보호자 휴대폰은 같은 핫스팟에 연결합니다.</p>
+        </li>
+        <li class="card">
+          <div class="flow-top"><span class="flow-title"><h4>30초 평소값 측정</h4></span><span class="t">0:08</span></div>
+          <p>조용한 30초 동안 이 사람의 평소 소리·빛·심박과 흔들림 폭(표준편차)을 학습합니다. 앱에서 재측정 가능합니다.</p>
+        </li>
+        <li class="card">
+          <div class="flow-top"><span class="flow-title"><h4>실시간 측정·전송</h4></span><span class="t">0:13</span></div>
+          <p>웨어러블이 원시 데이터를 ESP-NOW로 마스터에 보내고, 앱은 0.5초마다 마스터의 판정 결과를 조회합니다.</p>
+        </li>
+        <li class="card">
+          <div class="flow-top"><span class="flow-title"><h4>환경 변화 감지</h4></span><span class="t">0:19</span></div>
+          <p>소리가 평소보다 크게 커지거나 조명이 급변하면 해당 채널이 주의·위험 단계로 전환됩니다.</p>
+        </li>
+        <li class="card">
+          <div class="flow-top"><span class="flow-title"><h4>보호자 알림</h4></span><span class="t">0:25</span></div>
+          <p>위험이 10초 이어지고 다른 채널도 주의 이상이면 Flutter 앱과 Galaxy Watch에 알림이 울리고 원인이 기록됩니다.</p>
+        </li>
+        <li class="card">
+          <div class="flow-top"><span class="flow-title"><h4>안정 및 쿨다운</h4></span><span class="t">0:50</span></div>
+          <p>환경이 돌아오면 정상으로 내려오고, 같은 알림은 2분 동안 다시 울리지 않습니다.</p>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ====================================================================
+       섹션 2: 시스템 아키텍처 & 개인별 위험 판정
+       ==================================================================== -->
+  <section class="section section-alt pad" id="system" aria-labelledby="h-system">
+    <div class="inner sec-stack">
+      <div class="sec-head">
+        <span class="eyebrow">02 · ARCHITECTURE &amp; ALGORITHM</span>
+        <h2 id="h-system">시스템 아키텍처와 개인별 위험 판정 과정</h2>
+        <p class="lede">복잡한 연산을 마스터 보드로 모아 웨어러블의 부담을 줄였고, 고정 임계값 대신 개인별 30초 평소값과 다중 채널 조건으로 오경보를 억제하도록 설계했습니다.</p>
+      </div>
+
+      <!-- 모바일 전용 세로 반응형 아키텍처 -->
+      <div class="arch-mobile" aria-label="모바일 시스템 데이터 흐름도">
+        <div class="card arch-box">
+          <div class="arch-box-head">
+            <h3>1. 웨어러블 (측정·송신)</h3>
+            <span>XIAO ESP32-S3</span>
+          </div>
+          <div class="arch-items">
+            <div class="arch-item">
+              <b><span class="dot" style="background:var(--sound)"></span>소리 · INMP441 마이크</b>
+              <span>16,000샘플/초 · I2S · 원음 그대로 전송</span>
+            </div>
+            <div class="arch-item">
+              <b><span class="dot" style="background:var(--light)"></span>빛 · VEML7700 조도</b>
+              <span>5회/초 · I2C · lux 값 전송</span>
+            </div>
+            <div class="arch-item">
+              <b><span class="dot" style="background:var(--heart)"></span>심박 · SEN0203 맥파</b>
+              <span>50샘플/초 · 아날로그 · 파형 원시값 전송 (손가락 착용)</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="arch-connector"><span>↓ ESP-NOW · 약 154패킷/초 · 채널 자동 추적</span></div>
+
+        <div class="card arch-box">
+          <div class="arch-box-head">
+            <h3>2. 마스터 (분석·판정)</h3>
+            <span>ESP32-S3 DevKitC</span>
+          </div>
+          <div class="arch-items">
+            <div class="arch-item"><b>① 수신·변환</b><span>소리 0.5초 상대 dB · 빛 lux · 심박 BPM 계산</span></div>
+            <div class="arch-item"><b>② 평소값 30초 학습</b><span>채널별 평균과 표준편차 산출</span></div>
+            <div class="arch-item"><b>③ 3채널 단계 판정</b><span>정상 · 주의 · 위험 분류</span></div>
+            <div class="arch-item"><b>④ 알림 발동 판정</b><span>위험 10초 유지 + 다른 채널 주의 이상</span></div>
+          </div>
+        </div>
+
+        <div class="arch-connector"><span>⇅ 휴대폰 핫스팟 · UDP 4210 · GET /status · POST /calibrate</span></div>
+
+        <div class="card arch-box">
+          <div class="arch-box-head">
+            <h3>3. 보호자 앱 &amp; 워치</h3>
+            <span>Flutter Android → Galaxy Watch</span>
+          </div>
+          <div class="arch-items">
+            <div class="arch-item"><b>마스터 자동 탐색</b><span>1초마다 UDP 4210 방송 IP 수신 또는 직접 입력</span></div>
+            <div class="arch-item"><b>3채널 실시간 표시·저장</b><span>0.5초마다 조회, 수치·원인 표시, 알림 최대 200건 저장</span></div>
+            <div class="arch-item"><b>→ Galaxy Watch</b><span>별도 워치 앱 없이 Android 시스템 알림 전달</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PC 전용 정밀 가로 SVG 아키텍처 -->
+      <div class="card arch-desktop" role="img" aria-label="웨어러블의 세 센서가 ESP-NOW로 마스터에 원시 데이터를 보내고, 마스터가 판정한 결과를 Wi-Fi 핫스팟을 통해 앱이 UDP로 찾고 HTTP로 조회하며, 앱 알림이 Galaxy Watch로 전달되는 흐름">
+        <svg viewBox="0 0 1000 400" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="d-head" d="M0,0 L10,5 L0,10 z"/></marker>
+            <marker id="ahs" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path class="d-head-soft" d="M0,0 L10,5 L0,10 z"/></marker>
+          </defs>
+          <rect class="d-box" x="12" y="20" width="252" height="360" rx="14"/>
+          <text class="d-title" x="30" y="52">웨어러블</text>
+          <text class="d-sub" x="30" y="72">XIAO ESP32-S3 · 몸에 착용</text>
+          <rect class="d-inner" x="28" y="92" width="220" height="76" rx="9"/>
+          <circle class="c-sound" cx="46" cy="114" r="6"/>
+          <text class="d-t" x="60" y="119">소리 · INMP441 마이크</text>
+          <text class="d-m" x="46" y="142">16,000샘플/초 · I2S</text>
+          <text class="d-s" x="46" y="159">원음 그대로 전송</text>
+          <rect class="d-inner" x="28" y="180" width="220" height="76" rx="9"/>
+          <circle class="c-light" cx="46" cy="202" r="6"/>
+          <text class="d-t" x="60" y="207">빛 · VEML7700 조도</text>
+          <text class="d-m" x="46" y="230">5회/초 · I2C</text>
+          <text class="d-s" x="46" y="247">lux 값 전송</text>
+          <rect class="d-inner" x="28" y="268" width="220" height="96" rx="9"/>
+          <circle class="c-heart" cx="46" cy="290" r="6"/>
+          <text class="d-t" x="60" y="295">심박 · SEN0203 맥파</text>
+          <text class="d-m" x="46" y="318">50샘플/초 · 아날로그</text>
+          <text class="d-s" x="46" y="335">파형 원시값 전송</text>
+          <text class="d-s" x="46" y="352">손가락에 착용</text>
+
+          <line class="d-arrow" x1="268" y1="210" x2="372" y2="210" marker-end="url(#ah)"/>
+          <text class="d-lab" x="320" y="192" text-anchor="middle">ESP-NOW</text>
+          <text class="d-m" x="320" y="234" text-anchor="middle">약 154패킷/초</text>
+          <text class="d-m" x="320" y="250" text-anchor="middle">채널 자동 추적</text>
+
+          <rect class="d-box" x="378" y="20" width="276" height="360" rx="14"/>
+          <text class="d-title" x="396" y="52">마스터</text>
+          <text class="d-sub" x="396" y="72">ESP32-S3 DevKitC · 판단 담당</text>
+          <rect class="d-inner" x="394" y="90" width="244" height="58" rx="9"/>
+          <text class="d-t" x="408" y="113">1 · 수신하고 값으로 바꾸기</text>
+          <text class="d-s" x="408" y="135">소리 0.5초 dB · 빛 lux · 심박 BPM</text>
+          <line class="d-arrow-soft" x1="516" y1="148" x2="516" y2="160" marker-end="url(#ahs)"/>
+          <rect class="d-inner" x="394" y="162" width="244" height="58" rx="9"/>
+          <text class="d-t" x="408" y="185">2 · 평소값 30초 측정</text>
+          <text class="d-s" x="408" y="207">채널별 평균과 표준편차</text>
+          <line class="d-arrow-soft" x1="516" y1="220" x2="516" y2="232" marker-end="url(#ahs)"/>
+          <rect class="d-inner" x="394" y="234" width="244" height="58" rx="9"/>
+          <text class="d-t" x="408" y="257">3 · 채널별 단계 판정</text>
+          <text class="d-s" x="408" y="279">정상 · 주의 · 위험</text>
+          <line class="d-arrow-soft" x1="516" y1="292" x2="516" y2="304" marker-end="url(#ahs)"/>
+          <rect class="d-inner" x="394" y="306" width="244" height="58" rx="9"/>
+          <text class="d-t" x="408" y="329">4 · 알림 판정</text>
+          <text class="d-s" x="408" y="351">위험 10초 유지 + 다른 채널 주의 이상</text>
+
+          <rect class="d-wifi" x="664" y="92" width="112" height="272" rx="10"/>
+          <text class="d-lab" x="720" y="80" text-anchor="middle">휴대폰 핫스팟</text>
+          <line class="d-arrow" x1="658" y1="140" x2="784" y2="140" marker-end="url(#ah)"/>
+          <text class="d-m" x="720" y="122" text-anchor="middle">UDP 4210 방송</text>
+          <text class="d-s" x="720" y="160" text-anchor="middle">1초마다 IP 알림</text>
+          <line class="d-arrow" x1="784" y1="222" x2="658" y2="222" marker-end="url(#ah)" marker-start="url(#ah)"/>
+          <text class="d-m" x="720" y="204" text-anchor="middle">GET /status</text>
+          <text class="d-s" x="720" y="242" text-anchor="middle">0.5초마다 조회</text>
+          <line class="d-arrow" x1="784" y1="310" x2="658" y2="310" marker-end="url(#ah)"/>
+          <text class="d-m" x="720" y="292" text-anchor="middle">POST /calibrate</text>
+          <text class="d-s" x="720" y="330" text-anchor="middle">평소값 다시 측정</text>
+
+          <rect class="d-box" x="788" y="20" width="200" height="360" rx="14"/>
+          <text class="d-title" x="806" y="52">보호자 앱</text>
+          <text class="d-sub" x="806" y="72">Flutter · Android</text>
+          <rect class="d-inner" x="802" y="90" width="172" height="58" rx="9"/>
+          <text class="d-t" x="816" y="113">마스터 자동 찾기</text>
+          <text class="d-s" x="816" y="135">방송 IP 또는 직접 입력</text>
+          <rect class="d-inner" x="802" y="162" width="172" height="58" rx="9"/>
+          <text class="d-t" x="816" y="185">3채널 실시간 표시</text>
+          <text class="d-s" x="816" y="207">값 · 단계 · 원인 문장</text>
+          <rect class="d-inner" x="802" y="234" width="172" height="58" rx="9"/>
+          <text class="d-t" x="816" y="257">알림 · 기록 저장</text>
+          <text class="d-s" x="816" y="279">최대 200건</text>
+          <rect class="d-inner" x="802" y="306" width="172" height="58" rx="9"/>
+          <text class="d-t" x="816" y="329">→ Galaxy Watch</text>
+          <text class="d-s" x="816" y="351">시스템 알림 전달</text>
+        </svg>
+      </div>
+
+      <!-- 개인별 위험 판정 파이프라인 -->
+      <div class="block-head">
+        <h3>개인별 위험 판정 파이프라인</h3>
+        <p>아래 기준값들은 시제품 설계 규칙이며, 의학적으로 검증된 임상 임계값이 아닙니다.</p>
+      </div>
+
+      <div class="card pipeline" aria-label="개인별 위험 판정 4단계">
+        <div class="pipe-item"><span class="st">STAGE 01</span><b>30초 개인 기준 학습</b><span>사용자별 소리·빛·심박 평균과 표준편차 산출</span></div>
+        <div class="pipe-item"><span class="st">STAGE 02</span><b>3채널 개별 단계 판정</b><span>각 채널을 평소값 대비 정상 / 주의 / 위험으로 분류</span></div>
+        <div class="pipe-item"><span class="st">STAGE 03</span><b>지속·교차 조건 검증</b><span>위험 10초 유지 + 타 채널 주의 이상 (단독 60초 안전장치)</span></div>
+        <div class="pipe-item"><span class="st">STAGE 04</span><b>알림 발송 &amp; 2분 쿨다운</b><span>앱·Galaxy Watch 알림, 원인 기록, 2분간 재알림 억제</span></div>
+      </div>
+
+      <div class="channels">
+        <article class="card ch is-sound">
+          <div class="ch-head">
+            <h4><span class="dot" style="background:var(--sound)"></span>소리</h4>
+            <span class="ch-unit">상대 dB</span>
+          </div>
+          <dl>
+            <div>
+              <dt>측정 방식</dt>
+              <dd>0.5초 평균 에너지를 평소 대비 상대 dB로 환산 (평소 = 50 dB 기준)
+                <code class="formula">50 + 20·log10(RMS / 평소 RMS)</code>
+              </dd>
+            </div>
+            <div>
+              <dt>단계 판정</dt>
+              <dd>
+                <div class="scale">
+                  <span class="s1"><strong>정상</strong>기준 이내</span>
+                  <span class="s2"><strong>주의</strong>평균+2SD<br>(+6~15 dB)</span>
+                  <span class="s3"><strong>위험</strong>평균+3SD<br>(+12~25 dB)</span>
+                </div>
+              </dd>
+            </div>
+          </dl>
+          <p class="caveat">절대 음압(dB SPL)이나 청력 검사 dB HL과 다른 사용자 평소 대비 상대 dB입니다.</p>
+        </article>
+
+        <article class="card ch is-light">
+          <div class="ch-head">
+            <h4><span class="dot" style="background:var(--light)"></span>빛</h4>
+            <span class="ch-unit">lux</span>
+          </div>
+          <dl>
+            <div>
+              <dt>측정 방식</dt>
+              <dd>조도(lux)와 초당 변화량을 측정하며, 실내 정상 범위(100~500 lux) 밖일 때만 평소 대비 비율을 함께 판정합니다.</dd>
+            </div>
+            <div>
+              <dt>단계 판정</dt>
+              <dd>
+                <div class="scale">
+                  <span class="s1"><strong>정상</strong>100~500 lux<br>실내 정상</span>
+                  <span class="s2"><strong>주의</strong>±150 lux/초<br>또는 ×1.3</span>
+                  <span class="s3"><strong>위험</strong>±300 lux/초<br>또는 ×1.6</span>
+                </div>
+              </dd>
+            </div>
+          </dl>
+          <p class="caveat">어두워지는 쪽은 ÷1.3, ÷1.6 적용. 3분간 안정되면 새 장소로 보고 평소값을 이동합니다.</p>
+        </article>
+
+        <article class="card ch is-heart">
+          <div class="ch-head">
+            <h4><span class="dot" style="background:var(--heart)"></span>심박</h4>
+            <span class="ch-unit">BPM</span>
+          </div>
+          <dl>
+            <div>
+              <dt>측정 방식</dt>
+              <dd>맥파 신호 크기에 맞춰 움직이는 적응형 기준선으로 박동을 찾고, 최근 박동들의 중앙값을 BPM으로 사용합니다.</dd>
+            </div>
+            <div>
+              <dt>단계 판정</dt>
+              <dd>
+                <div class="scale">
+                  <span class="s1"><strong>정상</strong>기준 이내</span>
+                  <span class="s2"><strong>주의</strong>평소 +20%</span>
+                  <span class="s3"><strong>위험</strong>평소 +30%</span>
+                </div>
+              </dd>
+            </div>
+          </dl>
+          <p class="caveat">심박 상승만 감지합니다. 심박이 오히려 떨어지는 반응은 감지하지 않습니다.</p>
+        </article>
+      </div>
+
+      <div class="block-head">
+        <h3>오경보 억제 및 알림 발동 규칙</h3>
+        <p>한 채널이 순간적으로 튀어 오경보가 반복되면 기기를 벗게 되므로 4단계 억제 조건을 두었습니다.</p>
+      </div>
+
+      <ol class="rule-grid">
+        <li class="card"><div class="rule-title"><b>위험 10초 유지</b></div><p>한 채널이 위험 상태로 10초 유지되어야 합니다. 1.5초 이내 짧은 끊김은 이어진 것으로 처리합니다.</p></li>
+        <li class="card"><div class="rule-title"><b>다른 채널 주의 이상</b></div><p>두 번째 채널이 함께 주의 이상일 때 발동합니다. 한 채널만 60초 넘게 위험이면 안전장치로 발동합니다.</p></li>
+        <li class="card"><div class="rule-title"><b>앱에 10초 표시</b></div><p>0.5초마다 조회하는 앱이 놓치지 않도록 알림 상태를 10초 유지하고, 알림 횟수가 늘 때만 기록합니다.</p></li>
+        <li class="card"><div class="rule-title"><b>2분 쿨다운</b></div><p>같은 알림이 연달아 울리지 않도록 발동 후 2분 동안 동일 알림을 다시 울리지 않습니다.</p></li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ====================================================================
+       섹션 3: 11/18 실기 검증 & 기술적 문제 해결
+       ==================================================================== -->
+  <section class="section pad" id="results" aria-labelledby="h-results">
+    <div class="inner sec-stack">
+      <div class="sec-head">
+        <span class="eyebrow">03 · VERIFICATION &amp; ENGINEERING</span>
+        <h2 id="h-results">11/18 실기 시험 결과와 기술적 문제 해결</h2>
+        <p class="lede">브레드보드 기반 실물 시제품과 Flutter Android 앱, Galaxy Watch 실제 작동 모드에서 확인한 결과와 트러블슈팅 기록입니다. 모든 사진은 클릭하면 크게 확대됩니다.</p>
+      </div>
+
+      <!-- ① 보호자 앱 4단계 실기 화면 -->
+      <div class="block-head">
+        <h3>보호자 Flutter 앱 실기 작동 흐름 (4단계)</h3>
+        <p>큰 소리와 조명 끄기 조건에서 평소값 측정 → 안정 → 위험 알림 → 원인 화면까지 실제 작동 모드로 확인했습니다.</p>
+      </div>
+
+      <div class="app-grid">
+        <figure class="card app-item">
+          <div class="app-step"><span>STEP 01</span><span class="pill p-wait">30초 측정</span></div>
+          <div class="phone-bezel">
+            <button type="button" class="zoom-btn" data-cap="앱 · 30초 평소값 측정 진행 화면" aria-label="앱 평소값 측정 화면 확대">
+              <img src="img/calib.jpg" alt="앱 평소값 측정 화면" loading="lazy">
+              <span class="zoom-badge">확대</span>
+            </button>
+          </div>
+          <figcaption><b>평소값 측정</b>재측정 남은 시간·진행률 표시</figcaption>
+        </figure>
+
+        <figure class="card app-item">
+          <div class="app-step"><span>STEP 02</span><span class="pill p-ok">안정</span></div>
+          <div class="phone-bezel">
+            <button type="button" class="zoom-btn" data-cap="앱 · 안정 상태 (소리·빛·심박 3채널 정상)" aria-label="앱 안정 상태 화면 확대">
+              <img src="img/stable.jpg" alt="앱 안정 상태 화면" loading="lazy">
+              <span class="zoom-badge">확대</span>
+            </button>
+          </div>
+          <figcaption><b>안정 상태</b>3채널 실시간 값·정상 표시</figcaption>
+        </figure>
+
+        <figure class="card app-item">
+          <div class="app-step"><span>STEP 03</span><span class="pill p-bad">위험 알림</span></div>
+          <div class="phone-bezel">
+            <button type="button" class="zoom-btn" data-cap="앱 · 위험 알림 발동 (큰 소리 + 조명 끔)" aria-label="앱 위험 알림 화면 확대">
+              <img src="img/danger.jpg" alt="앱 위험 알림 화면" loading="lazy">
+              <span class="zoom-badge">확대</span>
+            </button>
+          </div>
+          <figcaption><b>위험 알림</b>큰 소리 + 조명 끄기 감지</figcaption>
+        </figure>
+
+        <figure class="card app-item">
+          <div class="app-step"><span>STEP 04</span><span class="pill p-warn">원인 기록</span></div>
+          <div class="phone-bezel">
+            <button type="button" class="zoom-btn" data-cap="앱 · 알림 원인 설명 화면 (소리 74 dB 상대값, 빛 48 lux)" aria-label="앱 알림 원인 화면 확대">
+              <img src="img/reason.jpg" alt="앱 알림 원인 화면" loading="lazy">
+              <span class="zoom-badge">확대</span>
+            </button>
+          </div>
+          <figcaption><b>원인 설명</b>소리 74 dB(상대), 빛 48 lux</figcaption>
+        </figure>
+      </div>
+
+      <!-- ② 실제 하드웨어 & 시리얼 로그 -->
+      <div class="block-head">
+        <h3>실제 하드웨어 시제품 및 통신·심박 시험</h3>
+      </div>
+
+      <div class="hw-grid">
+        <figure class="card photo-card">
+          <button type="button" class="zoom-btn" data-cap="웨어러블 실물: XIAO ESP32-S3 · INMP441 · VEML7700 · SEN0203 · 3.7V LiPo" aria-label="웨어러블 시제품 사진 확대">
+            <img src="img/wear.jpg" alt="브레드보드 위 웨어러블 시제품과 손가락 맥파 센서, 배터리" loading="lazy">
+            <span class="zoom-badge">확대</span>
+          </button>
+          <figcaption><b>웨어러블 시제품</b> · XIAO ESP32-S3, 마이크·조도·맥파 센서, 3.7V LiPo</figcaption>
+        </figure>
+        <figure class="card photo-card">
+          <button type="button" class="zoom-btn" data-cap="마스터 보드 실물: ESP32-S3 DevKitC-1 N16R8" aria-label="마스터 보드 사진 확대">
+            <img src="img/master.jpg" alt="마스터 보드 ESP32-S3 DevKitC" loading="lazy">
+            <span class="zoom-badge">확대</span>
+          </button>
+          <figcaption><b>마스터 보드</b> · ESP32-S3 DevKitC-1 N16R8</figcaption>
+        </figure>
+        <figure class="card photo-card">
+          <button type="button" class="zoom-btn" data-cap="마스터 시리얼 모니터: 수신 패킷, 채널별 측정값과 판정 단계" aria-label="마스터 시리얼 모니터 사진 확대">
+            <img src="img/serial_master.jpg" alt="마스터 시리얼 모니터 화면" loading="lazy">
+            <span class="zoom-badge">확대</span>
+          </button>
+          <figcaption><b>마스터 시리얼</b> · 수신 패킷, 채널별 실시간 값과 단계 판정</figcaption>
+        </figure>
+        <figure class="card photo-card">
+          <button type="button" class="zoom-btn" data-cap="웨어러블 시리얼 모니터: 2초 308패킷(약 154개/초), 해당 구간 전송 실패·폐기 0" aria-label="웨어러블 시리얼 모니터 사진 확대">
+            <img src="img/serial_wear.jpg" alt="웨어러블 시리얼 모니터 화면" loading="lazy">
+            <span class="zoom-badge">확대</span>
+          </button>
+          <figcaption><b>웨어러블 시리얼</b> · 2초 308패킷(약 154개/초), 그 구간 실패·폐기 0 (장시간 손실률 아님)</figcaption>
+        </figure>
+        <figure class="card photo-card">
+          <button type="button" class="zoom-btn" data-cap="손가락 맥파 센서(SEN0203) 착용 시험: 초당 49~50샘플, 73.2 bpm 표시" aria-label="손가락 맥파 센서 사진 확대">
+            <img src="img/finger.jpg" alt="손가락에 맥파 센서를 낀 모습" loading="lazy">
+            <span class="zoom-badge">확대</span>
+          </button>
+          <figcaption><b>심박 센서 시험</b> · 손가락 맥파 착용, 초당 49~50샘플, 73.2 bpm (기준 장비 비교 전)</figcaption>
+        </figure>
+        <figure class="card photo-card">
+          <button type="button" class="zoom-btn" data-cap="시제품 변화: 초기 브레드보드 결선 구성" aria-label="초기 브레드보드 시제품 사진 확대">
+            <img src="img/proto_early.jpg" alt="초기 브레드보드 시제품" loading="lazy">
+            <span class="zoom-badge">확대</span>
+          </button>
+          <figcaption><b>시제품 변화</b> · 초기 브레드보드 결선 구성</figcaption>
+        </figure>
+      </div>
+
+      <!-- ③ 항목별 검증 현황표 -->
+      <div class="block-head">
+        <h3>항목별 실기 검증 현황</h3>
+      </div>
+
+      <div class="card">
+        <div class="verify-head">
+          <strong style="font-size:14px">검증 결과 요약 (총 9개 항목)</strong>
+          <div class="verify-pills">
+            <span class="pill p-ok">확인 6건</span>
+            <span class="pill p-warn">부분 1건</span>
+            <span class="pill p-wait">미시험 1건</span>
+            <span class="pill p-wait">범위 밖 1건</span>
+          </div>
+        </div>
+        <div>
+          <div class="vrow"><span class="pill p-ok">확인</span><span class="what">센서 3종 → 마스터 → 앱 실시간 표시</span><span class="ev">11/18, 마스터 시리얼 값이 앱에 그대로 표시 (10차 회의록, 사진)</span></div>
+          <div class="vrow"><span class="pill p-ok">확인</span><span class="what">보드 간 무선 전송</span><span class="ev">2초 308패킷, 약 154개/초, 그 구간 실패·폐기 0. 장시간 손실률은 아님</span></div>
+          <div class="vrow"><span class="pill p-ok">확인</span><span class="what">30초 평소값 설정과 재측정</span><span class="ev">보드 측정 절차, 앱 설정 탭 진행률 표시</span></div>
+          <div class="vrow"><span class="pill p-ok">확인</span><span class="what">심박 수신과 BPM 표시</span><span class="ev">초당 49~50샘플, 73.2 bpm</span></div>
+          <div class="vrow"><span class="pill p-ok">확인</span><span class="what">소리 + 빛 알림과 기록</span><span class="ev">큰 소리와 조명 끄기로 두 채널 위험, 앱 알림 1회와 원인 화면 (사진)</span></div>
+          <div class="vrow"><span class="pill p-ok">확인</span><span class="what">Galaxy Watch 알림</span><span class="ev">실제 작동 모드에서 수신 (10차 회의록)</span></div>
+          <div class="vrow"><span class="pill p-warn">부분</span><span class="what">BPM 정확도</span><span class="ev">스마트워치와 비슷하다는 확인만 있고, 수치 비교 기록은 없음</span></div>
+          <div class="vrow"><span class="pill p-wait">미시험</span><span class="what">배터리 단독 구동 · 손목 착용</span><span class="ev">배터리만으로 오래 도는지 시험한 기록 없음. 심박은 손가락 착용으로만 측정</span></div>
+          <div class="vrow"><span class="pill p-wait">범위 밖</span><span class="what">멜트다운 예방 효과</span><span class="ev">당사자 대상 시험이나 임상 검증은 하지 않았음</span></div>
+        </div>
+      </div>
+
+      <!-- ④ 기술적 문제 해결 (6건) -->
+      <div class="block-head" id="fix">
+        <h3>기술적 문제 해결 (문제 발생 → 원인 분석 → 해결)</h3>
+        <p>로그를 보며 원인을 하나씩 분리했고, 해결은 해당 조건에서 실제로 확인한 범위까지만 적었습니다.</p>
+      </div>
+
+      <div class="fixes">
+        <article class="card fix">
+          <div class="fix-top"><span class="when">5차 · 7/27</span><h4>시리얼 모니터를 켜야만 통신됨</h4></div>
+          <dl>
+            <div class="fix-row is-s"><dt>증상</dt><dd>모니터를 닫으면 웨어러블 전송이 멈춤</dd></div>
+            <div class="fix-row is-c"><dt>원인</dt><dd>ESP-NOW가 아니라 USB 시리얼 출력이 끝날 때까지 기다리는 블로킹</dd></div>
+            <div class="fix-row is-r"><dt>해결</dt><dd>출력 대기 시간을 없애 모니터와 상관없이 전송</dd></div>
+          </dl>
+        </article>
+
+        <article class="card fix">
+          <div class="fix-top"><span class="when">5차 · 7차 · 10차</span><h4>핫스팟을 켜면 보드 간 통신이 끊김</h4></div>
+          <dl>
+            <div class="fix-row is-s"><dt>증상</dt><dd>휴대폰 핫스팟 사용 시 ESP-NOW 수신 중단</dd></div>
+            <div class="fix-row is-c"><dt>원인</dt><dd>마스터가 붙은 Wi-Fi 채널과 ESP-NOW 채널이 달라짐</dd></div>
+            <div class="fix-row is-r"><dt>해결</dt><dd>웨어러블이 마스터 채널을 찾아 따라가게 수정. 11/18엔 핫스팟을 켜고 마스터를 재시작해 정상화</dd></div>
+          </dl>
+        </article>
+
+        <article class="card fix">
+          <div class="fix-top"><span class="when">7차 · 8/26</span><h4>소리 값이 꽉 차고 110 dB 근처에 고정</h4></div>
+          <dl>
+            <div class="fix-row is-s"><dt>증상</dt><dd>조용해도 값이 크게 나오고 잘 안 움직임</dd></div>
+            <div class="fix-row is-c"><dt>원인</dt><dd>마이크 원시값 변환 과정의 포화, 절대 dB 공식</dd></div>
+            <div class="fix-row is-r"><dt>해결</dt><dd>비트 변환 조정, 평소 대비 상대 dB로 변경, 기준 상·하한 적용</dd></div>
+          </dl>
+        </article>
+
+        <article class="card fix">
+          <div class="fix-top"><span class="when">9차 · 9/29</span><h4>회의실 300 lux가 '밝음'으로 판정</h4></div>
+          <dl>
+            <div class="fix-row is-s"><dt>증상</dt><dd>평범한 실내 조명에서 주의가 뜸</dd></div>
+            <div class="fix-row is-c"><dt>원인</dt><dd>평소 대비 비율만으로 판단</dd></div>
+            <div class="fix-row is-r"><dt>해결</dt><dd>100~500 lux는 실내 정상 범위로 처리, 3분 안정 시 기준 이동</dd></div>
+          </dl>
+        </article>
+
+        <article class="card fix">
+          <div class="fix-top"><span class="when">9차 → 10차</span><h4>심박이 47 bpm 근처로 낮게 나옴</h4></div>
+          <dl>
+            <div class="fix-row is-s"><dt>증상</dt><dd>실제보다 느린 심박 표시</dd></div>
+            <div class="fix-row is-c"><dt>원인</dt><dd>샘플 시각 지연(추정), 약한 맥파에서 박동 놓침</dd></div>
+            <div class="fix-row is-r"><dt>해결</dt><dd>샘플별 측정 시각 복원(v0.7.4), 신호 크기 적응형 박동 검출(v0.7.5). 11/18 초당 49~50샘플, 73.2 bpm 표시</dd></div>
+          </dl>
+        </article>
+
+        <article class="card fix">
+          <div class="fix-top"><span class="when">9차 · 9/29</span><h4>같은 알림이 기록에 계속 쌓임</h4></div>
+          <dl>
+            <div class="fix-row is-s"><dt>증상</dt><dd>알림이 10초 유지되는 동안 0.5초마다 새 기록</dd></div>
+            <div class="fix-row is-c"><dt>원인</dt><dd>상태만 보고 저장</dd></div>
+            <div class="fix-row is-r"><dt>해결</dt><dd>센서별 알림 횟수가 늘어난 순간에만 저장 (최대 200건)</dd></div>
+          </dl>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================================================================
+       섹션 4: 개발 아카이브 (3개 탭: 1~10차 기록 | 구상과 결정 | 부품 조달)
+       ==================================================================== -->
+  <section class="section section-alt pad" id="journal" aria-labelledby="h-journal">
+    <div class="inner sec-stack">
+      <div class="sec-head">
+        <span class="eyebrow">04 · ENGINEERING ARCHIVE</span>
+        <h2 id="h-journal">개발 기록, 설계 변경 결정, 부품 조달 내역</h2>
+        <p class="lede">5월 첫 부품 선정부터 11월 18일 실제 알림 확인까지의 전 과정을 3개 탭으로 정리했습니다.</p>
+      </div>
+
+      <div class="archive-tabs" role="tablist" aria-label="개발 아카이브 탭">
+        <button type="button" class="tab-btn" role="tab" data-tab="timeline" aria-selected="true">1~10차 개발 기록</button>
+        <button type="button" class="tab-btn" role="tab" data-tab="decide" aria-selected="false">구상과 결정 (9건)</button>
+        <button type="button" class="tab-btn" role="tab" data-tab="parts" aria-selected="false">부품 조달 (11.9만 원)</button>
+      </div>
+
+      <!-- TAB 1: 1~10차 개발 기록 -->
+      <div class="tab-panel" data-tab="timeline" role="tabpanel">
+        <div class="phase-filters" role="group" aria-label="개발 단계 필터">
+          <button type="button" class="filter-btn" data-phase="all" aria-pressed="true">전체 (1~10차)</button>
+          <button type="button" class="filter-btn" data-phase="p1" aria-pressed="false">1단계 · 준비 (1~3차)</button>
+          <button type="button" class="filter-btn" data-phase="p2" aria-pressed="false">2단계 · 연결 (4~6차)</button>
+          <button type="button" class="filter-btn" data-phase="p3" aria-pressed="false">3단계 · 기준 (7차)</button>
+          <button type="button" class="filter-btn" data-phase="p4" aria-pressed="false">4단계 · 통합 (8~10차)</button>
+        </div>
+
+        <div class="phase-group" data-phase="p1">
+          <div class="phase-label">1단계 · 준비 (5월 ~ 6월)</div>
+          <ol class="road">
+            <li>
+              <div class="r-date"><b>1차</b><span>5/8</span></div>
+              <span class="r-rail" aria-hidden="true"></span>
+              <div class="card r-card">
+                <div class="r-body">
+                  <div class="r-tags"><span class="tag">부품 선정</span><span class="tag">1차 구매</span></div>
+                  <h4>보드와 센서를 고르고 첫 구매</h4>
+                  <ul>
+                    <li>웨어러블(수집)과 마스터(분석) 모두 ESP32-S3 계열로 통일: 같은 통신 방식, 하나의 개발 환경</li>
+                    <li>노이즈에 강한 디지털 센서 채택: I2S 마이크 INMP441, I2C 조도 VEML7700, 심박 MAX30102</li>
+                    <li>배터리는 300mAh와 1000mAh 두 종류를 사서 무게와 사용 시간을 비교하기로 함</li>
+                    <li>스트랩·착용감은 하드웨어 연동이 확인된 다음 단계로 미룸</li>
+                    <li>디바이스마트·알리익스프레스에서 약 11.9만 원 구매, 센서별 핀 연결 설계, AI 도구(Cursor, Gemini) 활용 계획</li>
+                  </ul>
+                </div>
+                <div class="r-photos">
+                  <button type="button" class="zoom-btn" data-cap="1차 회의 (5/8)" aria-label="1차 회의 사진 확대">
+                    <img src="img/m1.jpg" alt="1차 회의 활동 사진" loading="lazy"><span class="zoom-badge">확대</span>
+                  </button>
+                </div>
+              </div>
+            </li>
+
+            <li>
+              <div class="r-date"><b>2차</b><span>5/22</span></div>
+              <span class="r-rail" aria-hidden="true"></span>
+              <div class="card r-card">
+                <div class="r-body">
+                  <div class="r-tags"><span class="tag">첫 동작</span><span class="tag">소리 FFT</span><span class="tag">문헌</span></div>
+                  <h4>보드가 켜지고, 마이크가 주파수를 잡다</h4>
+                  <ul>
+                    <li>XIAO 확장 보드와 인두기 추가 구입</li>
+                    <li>ESP32-S3에 Blink 예제를 올려 포트 인식과 정상 구동 확인</li>
+                    <li>브레드보드에서 INMP441을 I2S로 연결해 실시간 주파수 분석(FFT)과 시각화 성공. 7,000Hz 시험음에서 약 7,014~7,015Hz 추출</li>
+                    <li>문헌 조사로 감각 과부하와 관련된 위험 주파수 대역(2~8kHz)을 수집 목표로 정리</li>
+                    <li>이때 계획: 웨어러블에서 위험 대역 에너지만 뽑아 BLE로 마스터(Nucleo-64)에 전송 → 이후 변경 (<a href="#journal" data-open-tab="decide">구상과 결정 보기</a>)</li>
+                  </ul>
+                </div>
+                <div class="r-photos">
+                  <button type="button" class="zoom-btn" data-cap="2차 · 휴대폰으로 7000Hz 시험음 재생" aria-label="7000Hz 시험음 사진 확대">
+                    <img src="img/e7000.jpg" alt="휴대폰 화면에 7000Hz 시험음" loading="lazy"><span class="zoom-badge">확대</span>
+                  </button>
+                  <button type="button" class="zoom-btn" data-cap="2차 · 실시간 주파수 분석(FFT) 화면" aria-label="실시간 FFT 그래프 사진 확대">
+                    <img src="img/m2_fft.jpg" alt="노트북의 주파수 분석 그래프" loading="lazy"><span class="zoom-badge">확대</span>
+                  </button>
+                </div>
+              </div>
+            </li>
+
+            <li>
+              <div class="r-date"><b>3차</b><span>6/1</span></div>
+              <span class="r-rail" aria-hidden="true"></span>
+              <div class="card r-card">
+                <div class="r-body">
+                  <div class="r-tags"><span class="tag">웨어러블 보드</span><span class="tag">센서 3종</span></div>
+                  <h4>XIAO 웨어러블 보드로 옮겨 센서 3종 개별 확인</h4>
+                  <ul>
+                    <li>XIAO ESP32-S3 핀헤더 납땜, 업로드·시리얼 출력 확인: DevKit 중심에서 착용형 보드 중심으로 이전</li>
+                    <li>소리: 평소 소음 기준 전처리로 박수 칠 때 신호가 뚜렷하게 오르는 것 확인</li>
+                    <li>빛: VEML7700의 lux 값이 빛 변화에 따라 실시간으로 바뀜</li>
+                    <li>심박: MAX30102의 red·ir 원시값이 손가락 접촉에 따라 변함. 안정적인 BPM은 과제로 남음</li>
+                    <li>소리·조도·플리커 위험 기준을 문헌으로 정리</li>
+                  </ul>
+                </div>
+                <div class="r-photos">
+                  <button type="button" class="zoom-btn" data-cap="3차 회의 (6/1)" aria-label="3차 회의 사진 확대">
+                    <img src="img/m3.jpg" alt="3차 회의 활동 사진" loading="lazy"><span class="zoom-badge">확대</span>
+                  </button>
+                </div>
+              </div>
+            </li>
+          </ol>
+        </div>
+
+        <div class="phase-group" data-phase="p2">
+          <div class="phase-label">2단계 · 연결 (7월 ~ 8월 중순)</div>
+          <ol class="road">
+            <li>
+              <div class="r-date"><b>4차</b><span>7/24</span></div>
+              <span class="r-rail" aria-hidden="true"></span>
+              <div class="card r-card">
+                <div class="r-body">
+                  <div class="r-tags"><span class="tag">범위 조정</span><span class="tag">첫 무선 통신</span><span class="tag">앱 시제품</span></div>
+                  <h4>플리커 대신 조도에 집중, 보드끼리 첫 통신</h4>
+                  <ul>
+                    <li>VEML7700은 깜빡임(플리커)을 직접 못 잡는 한계 확인 → AS7341 센서 검토</li>
+                    <li>연동·안정화 부담을 따져 VEML7700 유지, 주변 밝기 변화 측정에 집중하기로 결정</li>
+                    <li>밝기에 따른 동공 반응 자료 조사: 개인차가 커서 한 가지 기준값 대신 여러 센서와 개인별 기준을 쓰는 방향</li>
+                    <li>Expo Go로 앱 화면 흐름 시제품, 마스터–웨어러블 기본 무선 송수신 1차 구현</li>
+                  </ul>
+                </div>
+                <div class="r-photos">
+                  <button type="button" class="zoom-btn" data-cap="4차 회의 (7/24)" aria-label="4차 회의 사진 확대">
+                    <img src="img/m4.jpg" alt="4차 회의 활동 사진" loading="lazy"><span class="zoom-badge">확대</span>
+                  </button>
+                </div>
+              </div>
+            </li>
+
+            <li>
+              <div class="r-date"><b>5차</b><span>7/27</span></div>
+              <span class="r-rail" aria-hidden="true"></span>
+              <div class="card r-card">
+                <div class="r-body">
+                  <div class="r-tags"><span class="tag">통신 디버깅</span><span class="tag">휴대폰까지 연결</span></div>
+                  <h4>통신이 끊기던 진짜 원인을 찾다</h4>
+                  <ul>
+                    <li>시리얼 모니터를 켜야만 통신되던 현상: ESP-NOW 문제가 아니라 USB 시리얼 출력 대기(블로킹)가 원인 → 대기 제거</li>
+                    <li>이후 그 관찰 구간에서 마이크 약 16,016샘플/초, 심박 100샘플/초, 244바이트 패킷 약 143개/초를 손실 없이 전달</li>
+                    <li>마스터에 Wi-Fi 접속·자동 재연결·HTTP 서버(<code>/health</code>, <code>/status</code>) 구현. 센서 → 웨어러블 → ESP-NOW → 마스터 → Wi-Fi → 휴대폰 브라우저 경로 확인</li>
+                    <li>조도값과 변화율로 정상·주의·위험이 바뀌는 기본 판정 구현</li>
+                    <li>신호 세기가 약해 외장 안테나가 필요하다는 것과 Wi-Fi·ESP-NOW 채널 불일치를 발견</li>
+                    <li>앱은 Expo Go와 Flutter 두 방식으로 나란히 개발해 하나가 막혀도 진행되게 함</li>
+                  </ul>
+                </div>
+                <div class="r-photos">
+                  <button type="button" class="zoom-btn" data-cap="5차 회의 (7/27)" aria-label="5차 회의 사진 확대">
+                    <img src="img/m5.jpg" alt="5차 회의 활동 사진" loading="lazy"><span class="zoom-badge">확대</span>
+                  </button>
+                </div>
+              </div>
+            </li>
+
+            <li>
+              <div class="r-date"><b>6차</b><span>8/19</span></div>
+              <span class="r-rail" aria-hidden="true"></span>
+              <div class="card r-card">
+                <div class="r-body">
+                  <div class="r-tags"><span class="tag">3단계 알림</span><span class="tag">거리 시험</span></div>
+                  <h4>세 센서를 받아 3단계로 나누는 코드</h4>
+                  <ul>
+                    <li>마스터가 소리·조도·심박 원시 데이터를 받아 노이즈를 걸러내고 정상·주의·위험 3단계로 분류</li>
+                    <li>거리 늘려가며 통신 시험: 홈즈 4층에서 3층 입구까지 수신 확인</li>
+                    <li>심박 기준값: 2초 간격 10회 측정 평균</li>
+                    <li>남은 과제: 기준 대비 몇 %에서 알릴지(10~20%) 정하기, 배터리 납땜</li>
+                  </ul>
+                  <p class="who">맡은 일 — 양성현: 마스터 통신 코드 · 송기범: 노이즈 처리 · 윤희찬: 컴파일, 심박 기준값 · 정선호: 3단계 알림 구조 · 김영민: 원시 데이터 수신·후처리 검증</p>
+                </div>
+                <div class="r-photos">
+                  <button type="button" class="zoom-btn" data-cap="6차 · 마스터 시리얼 출력" aria-label="6차 마스터 시리얼 출력 사진 확대">
+                    <img src="img/m6_log.jpg" alt="마스터 시리얼 출력 화면" loading="lazy"><span class="zoom-badge">확대</span>
+                  </button>
+                  <button type="button" class="zoom-btn" data-cap="6차 회의 (8/19)" aria-label="6차 회의 사진 확대">
+                    <img src="img/m6.jpg" alt="6차 회의 활동 사진" loading="lazy"><span class="zoom-badge">확대</span>
+                  </button>
+                </div>
+              </div>
+            </li>
+          </ol>
+        </div>
+
+        <div class="phase-group" data-phase="p3">
+          <div class="phase-label">3단계 · 판단 기준 (8월 말)</div>
+          <ol class="road">
+            <li>
+              <div class="r-date"><b>7차</b><span>8/26</span></div>
+              <span class="r-rail" aria-hidden="true"></span>
+              <div class="card r-card">
+                <div class="r-body">
+                  <div class="r-tags"><span class="tag">판정 v0.5</span><span class="tag">개인 평소값</span><span class="tag">하드웨어 변경</span></div>
+                  <h4>고정 기준에서 '그 사람의 평소'로</h4>
+                  <ul>
+                    <li>사람마다 평소 심박과 민감도가 달라 고정 기준을 버리고, 개인 심박 기준값과 소리·조도 30초 측정의 평균·표준편차로 기준을 잡음</li>
+                    <li>한 센서만 잠깐 튀어서 울리지 않도록 여러 센서 동시 조건 추가, 한 채널 위험이 오래 가면 울리는 안전장치도 추가</li>
+                    <li>소리 dB 계산식을 고치고 값이 꽉 차던(포화) 문제 해결, 기준이 너무 크거나 작아지지 않게 상·하한 적용</li>
+                    <li>휴대폰 핫스팟을 켜면 보드 간 통신이 끊기는 현상 확인</li>
+                    <li>기존 확장 보드·배터리 연결 문제 → 새 확장 보드와 커넥터가 맞는 3.7V LiPo로 바꾸기로 함</li>
+                  </ul>
+                </div>
+                <div class="r-photos">
+                  <button type="button" class="zoom-btn" data-cap="7차 회의 (8/26)" aria-label="7차 회의 사진 확대">
+                    <img src="img/m7.jpg" alt="7차 회의 활동 사진" loading="lazy"><span class="zoom-badge">확대</span>
+                  </button>
+                </div>
+              </div>
+            </li>
+          </ol>
+        </div>
+
+        <div class="phase-group" data-phase="p4">
+          <div class="phase-label">4단계 · 앱과 통합 (9월 ~ 11월)</div>
+          <ol class="road">
+            <li>
+              <div class="r-date"><b>8차</b><span>9/15</span></div>
+              <span class="r-rail" aria-hidden="true"></span>
+              <div class="card r-card">
+                <div class="r-body">
+                  <div class="r-tags"><span class="tag">Flutter</span><span class="tag">통신 구조 확정</span><span class="tag">심박 센서 교체</span></div>
+                  <h4>Flutter 앱이 실제 데이터를 받을 준비</h4>
+                  <ul>
+                    <li>Flutter 앱 구조 분석, Android 개발 환경 구축, 디버그 APK 빌드 성공</li>
+                    <li>HTTP 수신 코드(<code>GoyoHttpSource</code>) 추가, 가상 데이터 시뮬레이터는 시연·디버깅용으로 유지</li>
+                    <li>알림 기록과 보호자 '확인' 상태 저장 기능 (이 시점엔 가상 데이터로 검증)</li>
+                    <li>통신 구조 확정: 마스터가 UDP 4210으로 1초마다 IP를 알리고, 앱이 찾은 뒤 HTTP <code>/status</code>를 0.5초마다 요청</li>
+                    <li>웨어러블 경량화, 심박 센서를 MAX30102에서 아날로그 맥파 센서 SEN0203으로 교체하고 코드 재작성, 새 확장 보드·배터리 확보</li>
+                  </ul>
+                </div>
+                <div class="r-photos">
+                  <button type="button" class="zoom-btn" data-cap="8차 회의 (9/15)" aria-label="8차 회의 사진 확대">
+                    <img src="img/m8.jpg" alt="8차 회의 활동 사진" loading="lazy"><span class="zoom-badge">확대</span>
+                  </button>
+                </div>
+              </div>
+            </li>
+
+            <li>
+              <div class="r-date"><b>9차</b><span>9/29</span></div>
+              <span class="r-rail" aria-hidden="true"></span>
+              <div class="card r-card">
+                <div class="r-body">
+                  <div class="r-tags"><span class="tag">실기기 연동</span><span class="tag">알림 기록</span><span class="tag">워치</span></div>
+                  <h4>휴대폰에 실시간 값이 뜨고, 워치가 울리다</h4>
+                  <ul>
+                    <li>Android 실기기에서 소리 47~56 dB, 조도 250~339 lux 실시간 표시. 심박은 47 bpm으로 떴지만 정확도는 미검증</li>
+                    <li>핫스팟에서 자동 탐색이 막힐 때를 위해 IP 직접 입력 유지, <code>/calibrate</code>로 30초 재측정</li>
+                    <li>알림 기록을 휴대폰에 저장: 같은 알림이 0.5초마다 중복 저장되지 않게 알림 횟수가 늘 때만 저장, 최대 200건</li>
+                    <li>별도 워치 앱 없이 Android 시스템 알림이 페어링된 Galaxy Watch로 전달되는 구조. 시연 모드에서 휴대폰·워치 알림 확인</li>
+                    <li>회의실 300 lux를 '밝음'으로 잘못 판정 → 100~500 lux는 실내 정상으로, 3분간 안정되면 새 장소로 보고 기준 이동</li>
+                    <li>심박 47 bpm 원인으로 샘플링 지연을 의심해 측정 시각 보정 코드(v0.7.4) 작성. 이때는 업로드 전</li>
+                  </ul>
+                </div>
+                <div class="r-photos">
+                  <button type="button" class="zoom-btn" data-cap="9차 회의 (9/29)" aria-label="9차 회의 사진 확대">
+                    <img src="img/m9.jpg" alt="9차 회의 활동 사진" loading="lazy"><span class="zoom-badge">확대</span>
+                  </button>
+                </div>
+              </div>
+            </li>
+
+            <li class="now">
+              <div class="r-date"><b>10차</b><span>11/18</span></div>
+              <span class="r-rail" aria-hidden="true"></span>
+              <div class="card r-card">
+                <div class="r-body">
+                  <div class="r-tags"><span class="tag">v0.7.5 실기 적용</span><span class="tag">실제 작동 모드 알림</span><span class="tag">포스터</span></div>
+                  <h4>v0.7.5를 올리고, 실제로 알림까지</h4>
+                  <ul>
+                    <li>약한 맥파에도 박동을 잡도록 검출 기준을 신호 크기에 맞춰 조정, 유효 심박 8개가 모인 뒤 기준 확정, 소리는 0.5초 평균 단위 판정 (김영민)</li>
+                    <li>업로드 직후 전송이 불안정 → 휴대폰 핫스팟을 켜고 마스터를 재시작하자 정상화</li>
+                    <li>2초 동안 308패킷(약 154개/초), 그 구간 전송 실패·폐기 0. 30초 평소값 설정 후 앱에 실시간 표시</li>
+                    <li>손가락 심박 시험: 초당 49~50샘플 수신, 73.2 bpm 표시 (기준 장비 비교 전)</li>
+                    <li>실제 작동 모드에서 Galaxy Watch 알림 수신, 앱 설정 탭에 재측정 남은 시간·진행률 표시 (정선호)</li>
+                    <li>큰 소리와 조명 끄기로 알림 시험: 소리·빛 두 채널 위험, 앱 알림과 원인 화면 확인 (<a href="#results">실기 검증</a>)</li>
+                    <li>A0 성과포스터 초안, 이 사이트로 연결되는 QR 배치</li>
+                  </ul>
+                </div>
+                <div class="r-photos">
+                  <button type="button" class="zoom-btn" data-cap="10차 회의 (11/18)" aria-label="10차 회의 사진 확대">
+                    <img src="img/team10.jpg" alt="10차 회의 활동 사진" loading="lazy"><span class="zoom-badge">확대</span>
+                  </button>
+                </div>
+              </div>
+            </li>
+          </ol>
+        </div>
+      </div>
+
+      <!-- TAB 2: 구상과 결정 -->
+      <div class="tab-panel" data-tab="decide" role="tabpanel" hidden>
+        <div class="card">
+          <table class="decide-table">
+            <thead>
+              <tr>
+                <th>처음 구상</th>
+                <th aria-hidden="true"></th>
+                <th>지금 시제품</th>
+                <th>바꾼 이유 · 시점</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td class="d-before">마스터 Nucleo-64, BLE 전송</td><td class="d-arrow" aria-hidden="true">→</td><td class="d-now">마스터도 ESP32-S3, ESP-NOW</td><td class="d-why">두 보드를 같은 계열로 맞추면 통신·개발 환경이 하나로 통일됨<small>1차 보드 통일 → 4~5차 ESP-NOW 구현</small></td></tr>
+              <tr><td class="d-before">웨어러블에서 위험 주파수 대역 에너지만 계산</td><td class="d-arrow" aria-hidden="true">→</td><td class="d-now">웨어러블은 원시 데이터 전송, 마스터가 상대 dB 계산</td><td class="d-why">계산은 마스터 한 곳에서. 웨어러블은 가볍게<small>2차 FFT 시험 → 8차 구조 정리</small></td></tr>
+              <tr><td class="d-before">AI 모델 학습 · 위기 라벨링</td><td class="d-arrow" aria-hidden="true">→</td><td class="d-now">규칙 기반 판정 (개인 평소값 대비)</td><td class="d-why">학습용 실제 위기 데이터가 없음. 개인차를 반영하는 통계 기준으로<small>1~3차 구상 → 7차 v0.5</small></td></tr>
+              <tr><td class="d-before">고정 기준 (기준 대비 10~20%, 심박 10회 평균)</td><td class="d-arrow" aria-hidden="true">→</td><td class="d-now">30초 측정의 평균·표준편차로 사람마다 다른 기준</td><td class="d-why">사람마다 평소 심박과 민감도가 다름<small>6차 → 7차</small></td></tr>
+              <tr><td class="d-before">플리커 측정 (AS7341 검토)</td><td class="d-arrow" aria-hidden="true">→</td><td class="d-now">VEML7700으로 밝기 변화만</td><td class="d-why">새 센서 연동·안정화 부담. 안정적인 조도 데이터 우선<small>4차</small></td></tr>
+              <tr><td class="d-before">심박 MAX30102 (I2C, red·ir)</td><td class="d-arrow" aria-hidden="true">→</td><td class="d-now">아날로그 맥파 SEN0203</td><td class="d-why">안정적인 BPM 산출이 어려웠음. 웨어러블 경량화와 함께 교체<small>3차 과제 → 8차 교체</small></td></tr>
+              <tr><td class="d-before">앱 Expo Go / Flutter 병행</td><td class="d-arrow" aria-hidden="true">→</td><td class="d-now">Flutter Android 앱</td><td class="d-why">한쪽이 막혀도 진행되게 병행한 뒤 실제 연동으로 결정<small>5차 병행 → 8차 Flutter</small></td></tr>
+              <tr><td class="d-before">워치 전용 앱</td><td class="d-arrow" aria-hidden="true">→</td><td class="d-now">Android 시스템 알림을 Galaxy Watch로 전달</td><td class="d-why">별도 Wear OS 앱 없이 보호자가 휴대폰을 안 봐도 알 수 있게<small>9차 시연 → 10차 실제 작동</small></td></tr>
+              <tr><td class="d-before">배터리 300mAh · 1000mAh 비교</td><td class="d-arrow" aria-hidden="true">→</td><td class="d-now">새 확장 보드 + 호환 3.7V LiPo</td><td class="d-why">기존 확장 보드·배터리 연결 문제. 배터리 단독 장시간 구동은 아직 시험 전<small>7~8차</small></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- TAB 3: 부품 조달 -->
+      <div class="tab-panel" data-tab="parts" role="tabpanel" hidden>
+        <div class="parts-layout">
+          <div class="card parts-tbl-wrap">
+            <table class="parts-table">
+              <thead><tr><th>품목 (1차 · 5월)</th><th>수량</th><th class="num-cell">표시 금액</th><th>쓰임</th></tr></thead>
+              <tbody>
+                <tr><td>ESP32-S3 N16R8 DevKit</td><td>1</td><td class="num-cell">21,000원</td><td>마스터 보드</td></tr>
+                <tr><td>XIAO ESP32-S3 (알리익스프레스)</td><td>–</td><td class="num-cell">24,400원</td><td>웨어러블 보드</td></tr>
+                <tr><td>INMP441 마이크 모듈</td><td>2</td><td class="num-cell">22,000원</td><td>소리</td></tr>
+                <tr><td>VEML7700 조도 센서</td><td>2</td><td class="num-cell">17,400원</td><td>빛</td></tr>
+                <tr><td>MAX30102 심박 센서</td><td>2</td><td class="num-cell">7,000원</td><td>심박 (8차에 교체)</td></tr>
+                <tr><td>3.7V 리튬폴리머 1000mAh</td><td>1</td><td class="num-cell">4,300원</td><td>배터리 비교용</td></tr>
+                <tr><td>리튬폴리머 300mAh</td><td>1</td><td class="num-cell">3,100원</td><td>배터리 비교용</td></tr>
+                <tr><td>브레드보드 400핀</td><td>4</td><td class="num-cell">3,400원</td><td>시제품 결선</td></tr>
+                <tr><td>점퍼 케이블 M/F · M/M · F/F</td><td>각 1</td><td class="num-cell">850원씩</td><td>시제품 결선</td></tr>
+                <tr><td>핀헤더 1×40</td><td>3</td><td class="num-cell">480원</td><td>XIAO 납땜</td></tr>
+                <tr><td><b>디바이스마트 결제</b><small>상품 81,430 + 부가세 8,143</small></td><td></td><td class="num-cell"><b>89,573원</b></td><td></td></tr>
+                <tr><td><b>알리익스프레스 결제</b><small>24,400 + 배송 4,542</small></td><td></td><td class="num-cell"><b>28,942원</b></td><td></td></tr>
+                <tr class="total-row"><td><b>1차 합계</b></td><td></td><td class="num-cell"><b>118,515원</b></td><td></td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="parts-side">
+            <div class="shots">
+              <button type="button" class="zoom-btn" data-cap="1차 · 디바이스마트 장바구니" aria-label="디바이스마트 장바구니 사진 확대">
+                <img src="img/buy_dm.jpg" alt="디바이스마트 장바구니 화면" loading="lazy"><span class="zoom-badge">확대</span>
+              </button>
+              <button type="button" class="zoom-btn" data-cap="1차 · 알리익스프레스 XIAO ESP32-S3" aria-label="알리익스프레스 장바구니 사진 확대">
+                <img src="img/buy_ali.jpg" alt="알리익스프레스 장바구니 화면" loading="lazy"><span class="zoom-badge">확대</span>
+              </button>
+            </div>
+            <div class="card">
+              <h4>이후 추가 조달 (금액 기록 없음)</h4>
+              <ul>
+                <li>2차: XIAO 확장 보드, 인두기</li>
+                <li>7~8차: 새 확장 보드, 커넥터 호환 3.7V LiPo</li>
+                <li>8차: 아날로그 맥파 센서 SEN0203</li>
+                <li>웨어러블 외장 안테나 (5차에 신호 세기 문제로 필요 확인)</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================================================================
+       섹션 5: 팀 소개 & 연구 한계
+       ==================================================================== -->
+  <section class="section pad" id="team" aria-labelledby="h-team">
+    <div class="inner sec-stack">
+      <div class="sec-head">
+        <span class="eyebrow">05 · TEAM &amp; LIMITATIONS</span>
+        <h2 id="h-team">GOYO 팀 (한양대학교 융합전자공학부)</h2>
+        <p class="lede">역할은 1차 보고서의 분담을 기준으로 적었고, 그 아래는 회의록에 남은 주요 수행 작업입니다.</p>
+      </div>
+
+      <div class="team">
+        <article class="card member">
+          <img src="img/face_yang.jpg" alt="양성현 팀원 사진" loading="lazy">
+          <div class="member-info">
+            <b>양성현</b>
+            <span class="role">팀장 · PM · 시스템 구조</span>
+            <p>마스터보드 통신 코드와 수신·3단계 알림 파이프라인 주도 (6차)</p>
+          </div>
+        </article>
+        <article class="card member">
+          <img src="img/face_song.jpg" alt="송기범 팀원 사진" loading="lazy">
+          <div class="member-info">
+            <b>송기범</b>
+            <span class="role">시험 시나리오 · 데이터 검증</span>
+            <p>원시 데이터 노이즈 처리 코드 (6차)</p>
+          </div>
+        </article>
+        <article class="card member">
+          <img src="img/face_yoon.jpg" alt="윤희찬 팀원 사진" loading="lazy">
+          <div class="member-info">
+            <b>윤희찬</b>
+            <span class="role">마스터보드 · 무선 통신 구조</span>
+            <p>마스터 컴파일, 심박 기준값 산출 로직 (6차)</p>
+          </div>
+        </article>
+        <article class="card member">
+          <img src="img/face_jung.jpg" alt="정선호 팀원 사진" loading="lazy">
+          <div class="member-info">
+            <b>정선호</b>
+            <span class="role">웨어러블 보드 · 센서 결선</span>
+            <p>3단계 알림 구조 설계 지원 (6차), Galaxy Watch 알림과 재측정 진행 화면 (10차)</p>
+          </div>
+        </article>
+        <article class="card member">
+          <img src="img/face_kim.jpg" alt="김영민 팀원 사진" loading="lazy">
+          <div class="member-info">
+            <b>김영민</b>
+            <span class="role">오디오 신호 처리 · FFT · 전처리</span>
+            <p>센서 원시 데이터 수신·후처리 검증 (6차), 펌웨어 v0.7.5 박동 검출 개선 (10차)</p>
+          </div>
+        </article>
+      </div>
+
+      <div class="block-head" id="limitations">
+        <h3>연구 한계와 앞으로 남은 과제</h3>
+        <p>현재는 연구용 시제품의 통합 기능을 확인한 단계입니다. 현장 적용을 위해 검증해야 할 과제를 투명하게 정리했습니다.</p>
+      </div>
+
+      <div class="next-grid">
+        <article class="card next-card">
+          <span class="pill p-wait">하드웨어</span>
+          <h4>몸에 차는 기기로</h4>
+          <ul>
+            <li>배터리만으로 몇 시간 가는지 측정</li>
+            <li>손목 착용 상태에서 맥파 측정 확인</li>
+            <li>브레드보드를 작은 기판과 케이스로</li>
+          </ul>
+        </article>
+        <article class="card next-card">
+          <span class="pill p-wait">측정 검증</span>
+          <h4>숫자로 검증하기</h4>
+          <ul>
+            <li>스마트워치·기준 장비와 BPM 동시 비교 기록</li>
+            <li>장시간 전송 손실률</li>
+            <li>여러 장소에서 오경보 빈도</li>
+          </ul>
+        </article>
+        <article class="card next-card">
+          <span class="pill p-wait">판정 규칙</span>
+          <h4>정해야 할 정책</h4>
+          <ul>
+            <li>빛 급변만으로도 알릴지 (지금은 급변이 짧아 10초 조건을 못 채움)</li>
+            <li>시끄러운 장소에 소리도 적응시킬지</li>
+            <li>심박이 떨어지는 반응도 볼지</li>
+          </ul>
+        </article>
+      </div>
+
+      <div class="notice-bar">
+        <span><strong>연구 한계 고지:</strong> 본 프로젝트는 연구용 시제품의 통합 기능 확인 단계이며, 자폐 스펙트럼 당사자 대상 시험이나 실제 멜트다운 예방 효과에 대한 임상 검증은 수행하지 않았습니다.</span>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ======================================================================
+     푸터
+     ====================================================================== -->
+<footer class="pad">
+  <div class="inner">
+    <div class="footer-top">
+      <div>
+        <p><b>GOYO</b> · QUIETER SPACE, CLEARER MINDS · 2026 한양학술타운 LION · 한양대학교 융합전자공학부</p>
+        <p style="margin-top:4px">양성현(팀장) · 송기범 · 윤희찬 · 정선호 · 김영민 · 펌웨어 v0.7.5 · 앱 v0.7.4 · 정리 2026-11-19</p>
+      </div>
+      <a class="top-btn" href="#top">맨 위로 ↑</a>
+    </div>
+
+    <div>
+      <p><b>참고문헌</b></p>
+      <ol>
+        <li>Khalfa S. et al., Increased perception of loudness in autism, Hearing Research, 2004.</li>
+        <li>Nuske H. J. et al., Heart rate increase predicts challenging behavior episodes in preschoolers with autism, Stress, 2019.</li>
+        <li>Imbiriba T. et al., Wearable biosensing to predict imminent aggressive behavior in psychiatric inpatient youths with autism, JAMA Netw. Open, 2023.</li>
+        <li>Welford B. P., Note on a method for calculating corrected sums of squares and products, Technometrics, 1962.</li>
+      </ol>
+    </div>
+
+    <p>개발 과정에서 AI 도구(Cursor, Gemini, Claude 등)의 도움을 받았습니다. 위 3D 영상은 동작 순서를 설명하기 위한 연출이며 실제 촬영본이 아닙니다.</p>
+  </div>
+</footer>
+
+<!-- ======================================================================
+     사진 확대 모달 (Lightbox)
+     ====================================================================== -->
+<dialog class="lb" id="lb" aria-label="사진 크게 보기">
+  <div class="lb-shell">
+    <div class="lb-topbar">
+      <span class="lb-count" id="lbCount">1 / 1</span>
+      <div class="lb-controls">
+        <button type="button" class="lb-btn" id="lbPrev" aria-label="이전 사진">← 이전</button>
+        <button type="button" class="lb-btn" id="lbNext" aria-label="다음 사진">다음 →</button>
+        <button type="button" class="lb-btn" id="lbx" aria-label="닫기">닫기 ✕</button>
+      </div>
+    </div>
+    <div class="lb-stage">
+      <img id="lbi" alt="">
+    </div>
+    <p class="lb-cap" id="lbc"></p>
+  </div>
+</dialog>
+
+</body>
+</html>
